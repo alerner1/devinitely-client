@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import NavMenu from './Components/NavMenu';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Login from './Components/Login'
-import Home from './Components/ActivitiesDashboard'
+import ActivitiesDashboard from './Components/ActivitiesDashboard'
 import Signup from './Components/Signup'
 import LoginContainer from './Containers/LoginContainer'
 import DashboardsContainer from './Containers/DashboardsContainer';
@@ -24,8 +24,9 @@ class App extends React.Component {
         headers: { Authorization: `Bearer ${token}`},
       })
         .then(resp => resp.json())
-        .then(json => this.setState({user: json.user}), () => this.props.history.push('/dashboards'))
+        .then(json => this.setState({user: json.user}))
     } else {
+      console.log('no token')
       this.props.history.push('/login')
     }
   }
@@ -44,7 +45,6 @@ class App extends React.Component {
         localStorage.setItem("token", json.jwt)
         this.setState({user: json.user }, () => {
           console.log(localStorage.getItem('token'))
-          this.props.history.push('/dashboards')
         })
       })
   }
@@ -74,8 +74,9 @@ class App extends React.Component {
         <NavMenu user={this.state.user} logoutHandler={this.logoutHandler} />
         <Switch>
           <Route path="/login" render={routerProps => <LoginContainer {...routerProps} appHandleLogin={this.appHandleLogin} appHandleSignup={this.appHandleSignup} user={this.state.user} />} />
-          <Route path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} user={this.state.user} />} />
-          <Route path="/" render={routerProps => <Home {...routerProps} user={this.state.user} />} />
+          <Route exact path="/dashboards/job_leads" render={routerProps => <DashboardsContainer {...routerProps} dashboard='jobleads' user={this.state.user} />} />
+          <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
+          <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>
       </>
     );

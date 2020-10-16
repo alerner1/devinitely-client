@@ -9,39 +9,39 @@ import Row from 'react-bootstrap/Row'
 
 class ActivitiesDashboard extends React.Component {
 
+  clickHandler = () => {
+    this.props.history.push('/dashboards/job_leads')
+  }
+
   render() {
     return (
-      <Container>
-        <Card style={{ width: '75vw', height: '75vh', margin: 'auto' }}>
-          <Card.Body>
-            <Card.Title className="text-center">Your Job Search Progress</Card.Title>
-            <Card.Text>
-              <h5 className="text-center">This Week:</h5>
+      <>
+            <Card.Title className="text-center"><h1>Your Job Search Progress</h1></Card.Title>
+            <div className="d-flex flex-column h-100 justify-content-center">
+              <div className="h3 text-center mb-3">This Week:</div>
               <Row>
-                <Col>
-                  <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" alt="coding guy" />
+                <Col className="text-center">
+                  <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" height="100vw" alt="coding guy" />
                   <p>15 Job Leads Updated</p>
                 </Col>
-                <Col>
-                 <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" alt="coding guy" />
+                <Col className="text-center">
+                 <img src="https://www.flaticon.com/svg/static/icons/svg/2427/2427233.svg" width="100vw" height="100vw" alt="resume icon" />
                   <p>2 Resumes Submitted</p>
                 </Col>
-                <Col>
-                 <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" alt="coding guy" />
+                <Col className="text-center">
+                 <img src="https://www.flaticon.com/svg/static/icons/svg/1034/1034147.svg" width="100vw" height="100vw" alt="cover letter icon" />
                   <p>3 Cover Letters Submitted</p>
                 </Col>
-                <Col>
-                 <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" alt="coding guy" />
-                  <p>1 Interview Pending</p>
+                <Col className="text-center">
+                 <img src="https://www.flaticon.com/svg/static/icons/svg/942/942790.svg" width="100vw" height="100vw" alt="interview icon" />
+                  <p>4 Interviews Pending</p>
                 </Col>
               </Row>
-            </Card.Text>
-            <div className='text-center'>
+            </div>
+            <div className='text-center' onClick={this.clickHandler}>
               <Button variant="primary">View Job Leads</Button>
             </div>
-          </Card.Body>
-        </Card>
-      </Container>
+            </>
     )
   }
 }

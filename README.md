@@ -4,14 +4,14 @@ FRIDAY:
 
 * Signup and Login
   * DONE set up navbar component to render no matter what page you're on
-  * set up routes and components for login page if not authed (w/ redirect)
-  * set up routes and components for sign up page to work if not authed
-  * set up state to store user and token when logged in
+  * DONE set up routes and components for login page if not authed (w/ redirect)
+  * DONE set up routes and components for sign up page to work if not authed
+  * DONE set up state to store user and token when logged in
 
 * User Homepage
-  * navbar with appropriate routes/components (can be empty for now)
-  * components/design for activity dashboard
-  * start working on job leads dashboard components and design if time -- routes to create form, show page, edit page, etc
+  * DONE navbar with appropriate routes/components (can be empty for now)
+  * DONE components/design for activity dashboard
+  * SOME DONE start working on job leads dashboard components and design if time -- routes to create form, show page, edit page, etc
 
 MONDAY: 
 
@@ -46,3 +46,9 @@ WEDNESDAY:
     * learn about active storage: https://edgeguides.rubyonrails.org/active_storage_overview.html
     * update backend accordingly
     * design and implement components so it automatically updates the checklist when you upload the corresponding file and you can redownload said files later
+
+    ///////
+
+    BUGS: 
+
+    * when logged in, trying to go to any link (by directly entering it in url bar) sends you to /dashboards. WHY? (maybe a redirect to /login that then redirects to /dashboards. but how to stop that initial redirect to /login????)

@@ -1,18 +1,20 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 // import Form from 'react-bootstrap/Form';
 // import FormControl from 'react-bootstrap/FormControl';
 // import Button from 'react-bootstrap/Button';
 
 class NavMenu extends React.Component {
-  goHome = () => {
+  goHome = event => {
+    event.preventDefault();
     this.props.history.push('/dashboards');
   }
 
-  goJobLeads = () => {
+  goJobLeads = event => {
+    event.preventDefault();
     this.props.history.push('/dashboards/job_leads');
   }
 
@@ -23,7 +25,7 @@ class NavMenu extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link onClick={this.goHome} href="http://localhost:3001/home">Home</Nav.Link>
+            <Nav.Link onClick={this.goHome} href="http://localhost:3001/dashboards">Home</Nav.Link>
             <Nav.Link onClick={this.goJobLeads} href="http://localhost:3001/job_leads/index">Job Leads</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -47,4 +49,4 @@ class NavMenu extends React.Component {
   }
 }
 
-export default NavMenu;
+export default withRouter(NavMenu);
