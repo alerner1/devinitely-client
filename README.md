@@ -3,9 +3,9 @@ TODOS
 FRIDAY:
 
 * Signup and Login
-  * set up navbar component to render no matter what page you're on
+  * DONE set up navbar component to render no matter what page you're on
   * set up routes and components for login page if not authed (w/ redirect)
-  * set up routes and comopnents for sign up page to work if not authed
+  * set up routes and components for sign up page to work if not authed
   * set up state to store user and token when logged in
 
 * User Homepage
