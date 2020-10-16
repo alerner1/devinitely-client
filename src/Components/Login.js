@@ -20,9 +20,14 @@ class Login extends React.Component {
     this.props.appHandleLogin(this.state);
   }
 
+  clickHandler = e => {
+    e.preventDefault();
+    this.props.history.push('/login/create')
+  }
+
   render() {
     return (
-      // this.props.user ? 
+      !this.props.user ? 
       <Form onSubmit={this.handleSubmit}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -36,10 +41,10 @@ class Login extends React.Component {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-        <p>New here? <a href="/login/create">Create Account.</a></p>
+        <p>New here? <a onClick={this.clickHandler} href="/login/create">Create Account.</a></p>
       </Form>
-      // :
-      // <Redirect to="/home" />
+      :
+      <Redirect to="/dashboards" />
     );
   }
 }

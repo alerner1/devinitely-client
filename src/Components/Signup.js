@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Redirect} from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -25,7 +25,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      // this.props.user ? 
+      !this.props.user ? 
       <Form onSubmit={this.handleSubmit}>
         <Form.Group controlId="formBasicFirstName">
           <Form.Label>First Name</Form.Label>
@@ -48,8 +48,8 @@ class Signup extends React.Component {
           Submit
         </Button>
       </Form>
-      // :
-      // <Redirect to="/home" />
+      :
+      <Redirect to="/dashboards" />
     );
   }
 
