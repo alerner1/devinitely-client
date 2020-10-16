@@ -1,21 +1,30 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import { Redirect } from 'react-router-dom'
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 // import Form from 'react-bootstrap/Form';
 // import FormControl from 'react-bootstrap/FormControl';
 // import Button from 'react-bootstrap/Button';
 
 class NavMenu extends React.Component {
+  goHome = () => {
+    this.props.history.push('/dashboards');
+  }
+
+  goJobLeads = () => {
+    this.props.history.push('/dashboards/job_leads');
+  }
+
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="http://localhost:3001/home">Devinitely!</Navbar.Brand>
+        <Navbar.Brand onClick={this.goHome} href="http://localhost:3001/home">Devinitely!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="http://localhost:3001/home">Home</Nav.Link>
-            <Nav.Link href="http://localhost:3001/job_leads/index">Job Leads</Nav.Link>
+            <Nav.Link onClick={this.goHome} href="http://localhost:3001/home">Home</Nav.Link>
+            <Nav.Link onClick={this.goJobLeads} href="http://localhost:3001/job_leads/index">Job Leads</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

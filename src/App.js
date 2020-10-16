@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import NavMenu from './Components/NavMenu';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Login from './Components/Login'
-import Home from './Components/Home'
+import Home from './Components/ActivitiesDashboard'
 import Signup from './Components/Signup'
 import LoginContainer from './Containers/LoginContainer'
 import DashboardsContainer from './Containers/DashboardsContainer';
