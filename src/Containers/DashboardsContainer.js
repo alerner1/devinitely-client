@@ -19,7 +19,7 @@ class DashboardsContainer extends React.Component {
       <>
         {this.props.user ?
           <Container>
-            <Card style={{ width: '75vw', height: '75vh', margin: 'auto' }}>
+            <Card style={{  margin: 'auto' }}>
               <Card.Body className="d-flex flex-column">
                 {this.renderDashboard()}
               </Card.Body>
