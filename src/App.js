@@ -9,6 +9,8 @@ import ActivitiesDashboard from './Components/ActivitiesDashboard'
 import Signup from './Components/Signup'
 import LoginContainer from './Containers/LoginContainer'
 import DashboardsContainer from './Containers/DashboardsContainer';
+import FormContainer from './Containers/FormContainer'
+import JobLeadContainer from './Containers/JobLeadContainer'
 
 class App extends React.Component {
   state = {
@@ -70,12 +72,23 @@ class App extends React.Component {
 
   render() {
     return (
+      // in render statement of routes, check if user and if not return null
       <>
         <NavMenu user={this.state.user} logoutHandler={this.logoutHandler} />
         <Switch>
           <Route path="/login" render={routerProps => <LoginContainer {...routerProps} appHandleLogin={this.appHandleLogin} appHandleSignup={this.appHandleSignup} user={this.state.user} />} />
-          <Route exact path="/dashboards/job_leads" render={routerProps => <DashboardsContainer {...routerProps} dashboard='jobleads' user={this.state.user} />} />
+          <Route exact path="/dashboards/job_leads" render={routerProps => 
+            this.state.user ? 
+            (<DashboardsContainer {...routerProps} dashboard='jobleads' user={this.state.user} />)
+            : 
+            null 
+          } />
+          <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} formType='new' />} />
           <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
+          <Route exact path={`/job_leads/:jobLeadId`} render={routerProps => {
+          console.log(routerProps)
+          return <JobLeadContainer {...routerProps} />
+          }} />
           <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>
       </>

@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 
 class LeadsGrid extends React.Component {
   state = {
-    jobLeads: []
+    jobLeads: [],
   }
 
   componentDidMount() {
@@ -39,6 +39,8 @@ class LeadsGrid extends React.Component {
     }
     return allJobs;
   }
+
+
 
   render() {
     return (<Container>{this.renderJobLeads()}</Container>)

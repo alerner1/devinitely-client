@@ -26,7 +26,8 @@ class DashboardsContainer extends React.Component {
             </Card>
           </Container>
           :
-          <Redirect to="/login" />
+          // <Redirect to="/login" />
+          null
         }
       </>
     )
