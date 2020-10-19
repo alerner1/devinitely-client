@@ -11,25 +11,27 @@ FRIDAY:
 * User Homepage
   * DONE navbar with appropriate routes/components (can be empty for now)
   * DONE components/design for activity dashboard
-  * SOME DONE start working on job leads dashboard components and design if time -- routes to create form, show page, edit page, etc
+  * DONE start working on job leads dashboard components and design if time -- routes to create form, show page, edit page, etc
 
 MONDAY: 
 
 * Job Leads Dashboard
-  * flesh out job leads dashboard: all leads should display in a grid
-  * implement create new button to redirect to form for creating new job lead
-  * components and design for new job lead form
-
-TUESDAY:
-
-* Job Leads Dashboard
-  * components and design for job lead show page
-  * components and design for job lead edit page
+  * DONE flesh out job leads dashboard: all leads should display in a grid
+  * DONE implement create new button to redirect to form for creating new job lead
+  * DONE components and design for new job lead form
+  * DONE components and design for job lead show page
+  * SOME DONE components and design for job lead edit page
 
 AT THIS POINT WE SHOULD HAVE REACHED MVP.
 
-WEDNESDAY: 
+TUESDAY: 
 
+MORNING: 
+* Job Leads Dashboard
+  * finish edit nested attributes forms
+  * adjust design so new/show/edit look normal
+
+AFTERNOON: 
 * Stretch goals:
   * Side Projects/Git Commits Dashboard
     * backend: update domain model and controllers/json
@@ -47,8 +49,8 @@ WEDNESDAY:
     * update backend accordingly
     * design and implement components so it automatically updates the checklist when you upload the corresponding file and you can redownload said files later
 
-    ///////
+WEDNESDAY:
 
-    BUGS: 
-
-    * when logged in, trying to go to any link (by directly entering it in url bar) sends you to /dashboards. WHY? (maybe a redirect to /login that then redirects to /dashboards. but how to stop that initial redirect to /login????)
+* Update design
+* Customize colors/theme
+* Plan presentation
