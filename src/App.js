@@ -85,9 +85,9 @@ class App extends React.Component {
           } />
           <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} formType='new' />} />
           <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
+          <Route exact path={`/job_leads/:jobLeadId/edit`} render={routerProps => <JobLeadContainer {...routerProps} action="edit" user={this.state.user} />} />
           <Route exact path={`/job_leads/:jobLeadId`} render={routerProps => {
-          console.log(routerProps)
-          return <JobLeadContainer {...routerProps} />
+          return <JobLeadContainer {...routerProps} action="show" />
           }} />
           <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>
