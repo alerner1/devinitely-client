@@ -60,21 +60,23 @@ class ShowJobLead extends React.Component {
                       <div className="w-75" onClick={() => this.toggleItem(taskName, false)}>
                         {taskName}
                       </div>
-                      {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
-                        null
-                        :
-                        <Button onClick={event => {
-                          this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
-                        }}>^</Button>
-                      }
+                      <div>
 
                       {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
                         null
                         :
-                        <Button onClick={event => {
+                        <Button className="float-right mr-1" onClick={event => {
                           this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
-                        }}>v</Button>
+                        }}>&darr;</Button>
                       } 
+                      {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
+                        null
+                        :
+                        <Button className="float-right mr-1" onClick={event => {
+                          this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
+                        }}>&uarr;</Button>
+                      }
+                      </div>
                     </div>
 
                   </ListGroup.Item>
@@ -84,20 +86,23 @@ class ShowJobLead extends React.Component {
                       <div className="w-75" onClick={() => this.toggleItem(taskName, true)}>
                         <strike>{taskName} </strike>
                       </div>
+                      <div>
+
+                        {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
+                          null
+                          :
+                          <Button className="float-right mr-1" onClick={event => {
+                            this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
+                          }}>&darr;</Button>
+                        } 
                       {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
                         null
                         :
-                        <Button onClick={event => {
+                        <Button className="float-right mr-1" onClick={event => {
                           this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
-                        }}>^</Button>
+                        }}>&uarr;</Button>
                       }
-                      {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
-                        null
-                        :
-                        <Button onClick={event => {
-                          this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
-                        }}>v</Button>
-                      } 
+                      </div>
                     </div>
 
                   </ListGroup.Item>

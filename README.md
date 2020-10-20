@@ -61,6 +61,7 @@ MORNING:
 
 TODOS:
 
-* DONE figure out sorting for checklist, notes, job leads
 * phone contact info for job lead
+* maybe edit and new form buttons could be like "up, down, mark complete; edit, delete"
+* DONE figure out sorting for checklist, notes, job leads
 * DONE move checklist items
