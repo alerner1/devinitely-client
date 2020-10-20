@@ -2,9 +2,9 @@ import React from 'react';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-class ActionItem extends React.Component {
+class Note extends React.Component {
   state = {
-    checklistItem: this.props.task,
+    noteContent: this.props.note,
     edit: false
   }
 
@@ -19,17 +19,17 @@ class ActionItem extends React.Component {
   }
 
   handleSave = event => {
-    this.props.handleSave(this.props.id, this.state.checklistItem)
+    this.props.handleSave(this.props.id, this.state.noteContent)
     this.setState({edit: false})
   }
 
   showItem = () => {
-    if (this.props.task && this.state.edit === false) {
-      return <li>{this.state.checklistItem}<Button onClick={this.handleEdit}>Edit</Button></li>
+    if (this.props.note && this.state.edit === false) {
+      return <li>{this.state.noteContent}<Button onClick={this.handleEdit}>Edit</Button></li>
     } else {
       return (
         <>
-      <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
+      <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="text" placeholder="Next action item" />
       <Button id="saveItem" onClick={this.handleSave}>Save</Button>
         </>
       )
@@ -43,4 +43,4 @@ class ActionItem extends React.Component {
   }
 }
 
-export default ActionItem;
+export default Note;

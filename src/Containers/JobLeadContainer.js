@@ -5,25 +5,13 @@ import ShowJobLead from '../Components/ShowJobLead'
 import EditJobLeadForm from '../Components/EditJobLeadForm'
 
 class JobLeadContainer extends React.Component {
-  state = {
-    jobLead: []
-  }
-
-  componentDidMount() {
-    const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.props.match.params.jobLeadId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}`}
-    })
-      .then(resp => resp.json())
-      .then(json => this.setState({jobLead: json}))
-  }
+  
 
   chooseChild = () => {
     if (this.props.action === 'show') {
-      return <ShowJobLead jobLead={this.state.jobLead} />
+      return <ShowJobLead jobLeadId={this.props.match.params.jobLeadId} />
     } else if (this.props.action === 'edit') {
-      return <EditJobLeadForm user={this.props.user} jobLead={this.state.jobLead} />
+      return <EditJobLeadForm user={this.props.user} jobLeadId={this.props.match.params.jobLeadId} />
     }
   }
 

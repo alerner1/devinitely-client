@@ -2,31 +2,65 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import ActionItem from './ActionItem'
+import Note from './Note'
+import {withRouter} from 'react-router-dom'
 
 class EditJobLeadForm extends React.Component {
   state = {
     submitData: {
-      company: this.props.jobLead.company,
-      link: this.props.jobLead.link,
-      date: this.props.jobLead.date,
-      contact_method: this.props.jobLead.contact_method,
-      referral: this.props.jobLead.referral,
-      title: this.props.jobLead.title,
-      user_id: this.props.user && this.props.user.id,
+      company: '',
+      link: '',
+      date: '',
+      contact_method: '',
+      referral: '',
+      title: '',
+      user_id: null,
       checklist_attributes: {
-        id: this.props.jobLead.checklist.id,
-        task_list: this.props.jobLead.checklist.task_list
+        id: '',
+        task_list: ''
       },
       contact_attributes: {
-        id: this.props.jobLead.contact.id,
-        name: this.props.jobLead.contact.name,
-        title: this.props.jobLead.contact.title,
-        email: this.props.jobLead.contact.email
+        id: '',
+        name: '',
+        title: '',
+        email: ''
       },
-      notes_attributes: this.props.jobLead.notes
+      notes_attributes: []
     },
     checklistItem: '',
-    noteContent: ''
+    noteContent: '',
+    jobLead: []
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem("token")
+    fetch(`http://localhost:3000/job_leads/${this.props.match.params.jobLeadId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}`}
+    })
+      .then(resp => resp.json())
+      .then(jobLead => this.setState({
+        submitData: {
+          company: jobLead.company,
+          link: jobLead.link,
+          date: jobLead.date,
+          contact_method: jobLead.contact_method,
+          referral: jobLead.referral,
+          title: jobLead.title,
+          user_id: this.props.user && this.props.user.id,
+          checklist_attributes: {
+            id: jobLead.checklist.id,
+            task_list: jobLead.checklist.task_list
+          },
+          contact_attributes: {
+            id: jobLead.contact.id,
+            name: jobLead.contact.name,
+            title: jobLead.contact.title,
+            email: jobLead.contact.email
+          },
+          notes_attributes: jobLead.notes
+        }
+      }))
   }
 
   mapTasks = () => {
@@ -38,7 +72,7 @@ class EditJobLeadForm extends React.Component {
       }
     }
     return allTasks.map(task => {
-      return <ActionItem id={allTasks.indexOf(task)} key={allTasks.indexOf(task)} handleSave={this.handleSave} task={task} />
+      return <ActionItem id={allTasks.indexOf(task)} key={allTasks.indexOf(task)} handleSave={this.saveTask} task={task} />
     })
   }
 
@@ -49,7 +83,7 @@ class EditJobLeadForm extends React.Component {
     }
 
     return allNotes.map(note => {
-      return <li>{note} <Button> Edit </Button> </li>
+      return <Note id={allNotes.indexOf(note)} key={allNotes.indexOf(note)} handleSave={this.saveNote} note={note} />
     })
   }
 
@@ -57,30 +91,28 @@ class EditJobLeadForm extends React.Component {
     if (event.target.id === 'addActionItem') {
       const newTask = this.state.checklistItem;
       this.setState(prev => ({
-        ...prev,
         submitData: {
           ...prev.submitData,
           checklist_attributes: {
-            ...prev.checklist_attributes,
+            ...prev.submitData.checklist_attributes,
             task_list: [...prev.submitData.checklist_attributes.task_list, {[newTask]: false}]
           }
         }
       }), () => this.setState(prev => ({...prev, checklistItem: ''})))
     } else if (event.target.id === 'addNote') {
       const newNote = this.state.noteContent;
+      const newList = [...this.state.submitData.notes_attributes, {content: newNote}]
       this.setState(prev => ({
         ...prev,
         submitData: {
           ...prev.submitData,
-          notes_attributes: [
-            ...prev.submitData.notes_attributes, {content: newNote}
-          ]
+          notes_attributes: newList
         }
       }), () => this.setState(prev => ({...prev, noteContent: ''})))
     } 
   }
 
-  handleSave = (key, task) => {
+  saveTask = (key, task) => {
     const newList = this.state.submitData.checklist_attributes.task_list.slice()
     newList.splice(key, 1, {[`${task}`]: false})
     this.setState(prev => ({
@@ -90,11 +122,19 @@ class EditJobLeadForm extends React.Component {
     }))
   }
 
+  saveNote = (key, note) => {
+    const newList = this.state.submitData.notes_attributes.slice()
+    newList[key]['content'] = note;
+    this.setState(prev => ({
+      submitData: {...prev.submitData, notes_attributes: newList}
+    }))
+  }
+
   handleSubmit = event => {
     event.preventDefault()
     const token = localStorage.getItem("token")
-    console.log(this.state)
-    fetch(`http://localhost:3000/job_leads/${this.props.jobLead.id}`, {
+    console.log(this.state.submitData.notes_attributes)
+    fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +146,9 @@ class EditJobLeadForm extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then(console.dir)
+    .then(this.props.history.push(`/job_leads/${this.props.jobLeadId}`))
+  
+    
   }
   
   handleChange = event => {
@@ -220,4 +262,4 @@ class EditJobLeadForm extends React.Component {
   }
 }
 
-export default EditJobLeadForm;
+export default withRouter(EditJobLeadForm);

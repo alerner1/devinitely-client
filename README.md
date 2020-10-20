@@ -54,3 +54,9 @@ WEDNESDAY:
 * Update design
 * Customize colors/theme
 * Plan presentation
+
+////
+
+TODOS:
+* figure out sorting for checklist, notes, job leads
+* date value in edit form
