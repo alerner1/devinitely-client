@@ -29,9 +29,13 @@ TUESDAY:
 MORNING: 
 * Job Leads Dashboard
   * DONE finish edit nested attributes forms
-  * adjust design so new/show/edit look normal
+  * DONE adjust design so new/show/edit look normal
 
-AFTERNOON: 
+WEDNESDAY:
+
+MORNING:
+* job search progress algorithms
+
 * Stretch goals:
   * Side Projects/Git Commits Dashboard
     * backend: update domain model and controllers/json
@@ -49,16 +53,14 @@ AFTERNOON:
     * update backend accordingly
     * design and implement components so it automatically updates the checklist when you upload the corresponding file and you can redownload said files later
 
-WEDNESDAY:
 
-* Update design
 * Customize colors/theme
 * Plan presentation
 
 ////
 
 TODOS:
-* mark checklist as done
-* show action items for only up to next three
-* figure out sorting for checklist, notes, job leads
-* date value in edit form
+
+* DONE figure out sorting for checklist, notes, job leads
+* phone contact info for job lead
+* DONE move checklist items

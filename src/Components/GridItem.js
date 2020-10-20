@@ -21,6 +21,16 @@ class GridItem extends React.Component {
     }
   }
 
+  getThreeItems = notCompleted => {
+    const listOfThree = []
+    for (let i = 0; i < 3; i++) {
+      if (notCompleted[i]) {
+        listOfThree.push(<ListGroup.Item className="text-sm">{notCompleted[i]}</ListGroup.Item>)
+      }
+    }
+    return listOfThree;
+  }
+
   renderChecklist = () => {
     const notCompleted = [];
     
@@ -43,9 +53,9 @@ class GridItem extends React.Component {
       <>
       <div className="text-center">Action Items:</div>
       <ListGroup >
-        {notCompleted.map(task => {
-        return <ListGroup.Item className="text-sm">{task}</ListGroup.Item>
-      })}
+        {
+          this.getThreeItems(notCompleted)
+        }
       </ListGroup>
       </>)
     }
@@ -60,7 +70,7 @@ class GridItem extends React.Component {
     return (
       <Col xs={3} style={{paddingLeft:0, paddingRight:0}}>
         <Container>
-          <Card onClick={this.handleClick} onMouseEnter={this.toggleColor} onMouseLeave={this.toggleColor} style={{cursor: 'pointer', backgroundColor: this.state.color, height: '55vh', width: '20vw'}} >
+          <Card onClick={this.handleClick} onMouseEnter={this.toggleColor} onMouseLeave={this.toggleColor} style={{cursor: 'pointer', backgroundColor: this.state.color, height: '58vh', width: '20vw'}} >
             <Card.Body >
               <Row className='mb-3'>
                 <Col>

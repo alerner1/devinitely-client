@@ -1,7 +1,12 @@
 import React from 'react';
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/Button';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import Container from 'react-bootstrap/Container'
+import Table from 'react-bootstrap/Table'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 class ShowJobLead extends React.Component {
   state = {
@@ -12,66 +17,382 @@ class ShowJobLead extends React.Component {
     const token = localStorage.getItem("token")
     fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}`}
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(resp => resp.json())
-      .then(json => this.setState({jobLead: json}))
+      .then(json => this.setState({ jobLead: json }))
   }
 
+  // componentDidUpdate(prevState) {
+  //   if (prevState.jobLead && prevState.jobLead.checklist.task_list !== this.state.jobLead.checklist.task_list) {
+  //     this.renderChecklist()
+  //   }
+  // }
 
   renderChecklist = () => {
     const allTasks = [];
-    
-    if (this.state.jobLead.checklist) {
+
+    if (this.state.jobLead && this.state.jobLead.checklist) {
       for (const task of this.state.jobLead.checklist.task_list) {
         for (const taskName in task) {
           allTasks.push(taskName)
         }
       }
     }
-    return allTasks.map(task => {
-      return <li>{task}</li>
+
+    if (this.state.jobLead && this.state.jobLead.checklist && this.state.jobLead.checklist.task_list.length === 0) {
+      return (
+        <>
+          <h5 className="text-center">Action Items Checklist</h5>
+          <p className="mt-3">No action items yet! Click the Edit Information button to get started.</p>
+        </>
+      )
+    } else if (this.state.jobLead && this.state.jobLead.checklist) {
+      return (
+        <>
+          <h5 className="text-center">Action Items Checklist</h5>
+          <ListGroup>
+            {this.state.jobLead.checklist.task_list.map(task => {
+              for (const taskName in task) {
+                if (task[taskName] === false) {
+                  return <ListGroup.Item action>
+                    <div className="d-flex flex-row justify-content-between">
+                      <div className="w-75" onClick={() => this.toggleItem(taskName, false)}>
+                        {taskName}
+                      </div>
+                      {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
+                        null
+                        :
+                        <Button onClick={event => {
+                          this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
+                        }}>^</Button>
+                      }
+
+                      {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
+                        null
+                        :
+                        <Button onClick={event => {
+                          this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
+                        }}>v</Button>
+                      } 
+                    </div>
+
+                  </ListGroup.Item>
+                } else {
+                  return <ListGroup.Item action>
+                    <div className="d-flex flex-row justify-content-between">
+                      <div className="w-75" onClick={() => this.toggleItem(taskName, true)}>
+                        <strike>{taskName} </strike>
+                      </div>
+                      {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
+                        null
+                        :
+                        <Button onClick={event => {
+                          this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
+                        }}>^</Button>
+                      }
+                      {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
+                        null
+                        :
+                        <Button onClick={event => {
+                          this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
+                        }}>v</Button>
+                      } 
+                    </div>
+
+                  </ListGroup.Item>
+                }
+              }
+            })}
+          </ListGroup>
+        </>
+      )
+    }
+  }
+
+  moveUp = taskIndex => {
+    const newList = this.state.jobLead.checklist.task_list.slice();
+    const temp = newList[taskIndex - 1]
+    newList[taskIndex - 1] = newList[taskIndex]
+    newList[taskIndex] = temp
+
+    const token = localStorage.getItem("token")
+    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        job_leads: {
+          checklist_attributes: {
+            id: this.state.jobLead.checklist.id,
+            task_list: newList
+          }
+        }
+      })
     })
+      .then(resp => resp.json())
+      .then(json => this.setState({ jobLead: json.job_lead }))
+  }
+
+  moveDown = taskIndex => {
+    const newList = this.state.jobLead.checklist.task_list.slice();
+    const temp = newList[taskIndex + 1]
+    newList[taskIndex + 1] = newList[taskIndex]
+    newList[taskIndex] = temp
+
+    const token = localStorage.getItem("token")
+    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        job_leads: {
+          checklist_attributes: {
+            id: this.state.jobLead.checklist.id,
+            task_list: newList
+          }
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(json => this.setState({ jobLead: json.job_lead }))
+  }
+
+
+  toggleItem = (taskName) => {
+
+    const newList = this.state.jobLead.checklist.task_list.slice();
+    for (let i = 0; i < newList.length; i++) {
+      if (typeof newList[i][taskName] !== 'undefined') {
+        newList[i][taskName] = !newList[i][taskName]
+      }
+    }
+
+
+    const token = localStorage.getItem("token")
+    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        job_leads: {
+          checklist_attributes: {
+            id: this.state.jobLead.checklist.id,
+            task_list: newList
+          }
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(json => this.setState({ jobLead: json.job_lead }))
+
+  }
+
+  mapNotesRow = (row, allNotes) => {
+    const thisRow = allNotes.filter(note => {
+      return allNotes.indexOf(note) >= row * 4 && allNotes.indexOf(note) < (row + 1) * 4
+    })
+    return (
+      <Row style={{ marginLeft: 0, marginRight: 0 }} key={row}>
+        {thisRow.map(note => {
+          return (
+            <Col xs={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <Container>
+                <Card>
+                  <Card.Body>
+                    <Card.Text>
+                      {note}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Container>
+            </Col>
+          )
+        })}
+      </Row>
+    )
   }
 
   mapNotes = () => {
     const allNotes = [];
-    if (this.state.jobLead.notes) {
+    if (this.state.jobLead && this.state.jobLead.notes) {
       for (const note of this.state.jobLead.notes) {
         allNotes.push(note.content)
       }
     }
 
-    return allNotes.map(note => {
-      return <p>{note}</p>
-    })
+    let rows = parseInt(allNotes.length / 4, 10);
+    if (allNotes.length % 4 !== 0) {
+      rows++;
+    }
+
+
+    if (allNotes.length === 0) {
+      return (
+        <>
+          <h5 className="text-center">Notes</h5>
+          <p className="text-center">No notes yet! Click the Edit Information button to get started.</p>
+        </>
+      )
+    } else {
+      const formattedNotes = []
+      for (let i = 0; i < rows; i++) {
+        formattedNotes.push(this.mapNotesRow(i, allNotes))
+      }
+      return (
+
+        <Container className="mt-5">
+          <Card>
+            <Card.Body>
+              <Card.Title className="text-center">
+                Notes
+            </Card.Title>
+              <Card.Text>
+                {formattedNotes}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Container>
+      )
+
+    }
+
   }
 
   handleClick = () => {
     this.props.history.push(`/job_leads/${this.state.jobLead.id}/edit`)
   }
 
+  formatDate = date => {
+    const [year, month, day] = date.split('-');
+    const dateObj = { month, day, year };
+    return `${this.getMonth(dateObj.month)} ${dateObj.day}, ${dateObj.year}`
+  }
+
+  getMonth = monthNum => {
+    switch (parseInt(monthNum, 10)) {
+      case 1:
+        return 'January'
+      case 2:
+        return 'February'
+      case 3:
+        return 'March'
+      case 4:
+        return 'April'
+      case 5:
+        return 'May'
+      case 6:
+        return 'June'
+      case 7:
+        return 'July'
+      case 8:
+        return 'August'
+      case 9:
+        return 'September'
+      case 10:
+        return 'October'
+      case 11:
+        return 'November'
+      case 12:
+        return 'December'
+    }
+
+  }
+
   render() {
-    return(
+    return (
       <>
         <Card.Title className="text-center">
-          <h3>{this.state.jobLead.title} at {this.state.jobLead.company}</h3>
-        <Button id="edit-job-lead" className="float-right" onClick={this.handleClick}>Edit Information</Button></Card.Title>
+          <h3>{this.state.jobLead && this.state.jobLead.title}</h3>
+          <h6>at</h6>
+          <h5 className="font-italic">{this.state.jobLead && this.state.jobLead.company}</h5>
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h6>
+              Started application on {this.state.jobLead && this.state.jobLead.date && this.formatDate(this.state.jobLead.date)}
+            </h6>
+            <div className="d-flex flex-row justify-content-end">
+              <Button className="mr-2" href={`http://www.${this.state.jobLead && this.state.jobLead.link}`}>Visit Application Website</Button>
+              <Button id="edit-job-lead" className="float-right" onClick={this.handleClick}>Edit Information</Button>
+            </div>
+          </div>
+        </Card.Title>
         <Card.Text>
-          <Button href={`http://www.${this.state.jobLead.link}`}>Visit Application Website</Button>
-          <p>Date started: {this.state.jobLead.date}</p>
-          <p>Referral method: {this.state.jobLead.referral}</p>
-          <p>Contact:</p>
-          <p>Name: {this.state.jobLead.contact && this.state.jobLead.contact.name}</p>
-          <p>Title: {this.state.jobLead.contact && this.state.jobLead.contact.title}</p>
-          <p>Email: {this.state.jobLead.contact && this.state.jobLead.contact.email}</p>
-          <p>Contact method: {this.state.jobLead.contact_method}</p>
-          <p>Checklist: </p>
-          <ul>
-            {this.renderChecklist()}
-          </ul>
-          <h3>Notes: </h3>
-          {this.mapNotes()}
+          <Row>
+            <Col>
+              {this.renderChecklist()}
+            </Col>
+            <Col>
+              <Container>
+                <Card>
+                  <Card.Body>
+                    <Card.Title className="text-center">
+                      Contact Information
+                    </Card.Title>
+                    <Card.Text>
+                      <Table>
+                        <tbody>
+                          <tr>
+                            <th scope="row">
+                              Name
+                            </th>
+                            <td>
+                              {this.state.jobLead && this.state.jobLead.contact && this.state.jobLead.contact.name}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              Title
+                            </th>
+                            <td>
+                              {this.state.jobLead && this.state.jobLead.contact && this.state.jobLead.contact.title}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              Email
+                            </th>
+                            <td>
+                              {this.state.jobLead && this.state.jobLead.contact && this.state.jobLead.contact.email}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              Referred By
+                            </th>
+                            <td>
+                              {this.state.jobLead && this.state.jobLead.referral}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              Contact Method
+                            </th>
+                            <td>
+                              {this.state.jobLead && this.state.jobLead.contact_method}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Container>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {this.mapNotes()}
+            </Col>
+          </Row>
 
         </Card.Text>
       </>

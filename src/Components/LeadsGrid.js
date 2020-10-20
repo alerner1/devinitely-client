@@ -15,7 +15,10 @@ class LeadsGrid extends React.Component {
       headers: { Authorization: `Bearer ${token}`},
     })
     .then(resp => resp.json())
-    .then(jobLeads => this.setState({jobLeads: jobLeads}))
+    .then(jobLeads => {
+      jobLeads.sort((a, b) => (a.date < b.date) ? 1 : -1)
+      this.setState({jobLeads: jobLeads})
+    })
   }
 
   mapRow = (row) => {

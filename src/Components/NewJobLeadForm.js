@@ -2,6 +2,9 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {withRouter} from 'react-router-dom';
+import ListGroup from 'react-bootstrap/ListGroup'
+import ActionItem from './ActionItem'
+import Note from './Note'
 
 class NewJobLeadForm extends React.Component {
   state = {
@@ -14,7 +17,7 @@ class NewJobLeadForm extends React.Component {
       title: "",
       user_id: this.props.user && this.props.user.id,
       checklist_attributes: {
-        task_list: []
+        task_list: [{'Submit Resume': false}, {'Submit Cover Letter': false}, {'Interview': false}]
       },
       contact_attributes: {
         name: '',
@@ -27,30 +30,89 @@ class NewJobLeadForm extends React.Component {
     noteContent: ''
   }
 
-  mapTasks = () => {
-    
+  toggleComplete = (key, task) => {
+    const newList = this.state.submitData.checklist_attributes.task_list.slice()
+    newList.splice(key, 1, {[`${task}`]: !newList[key][`${task}`]})
+    this.setState(prev => ({
+      submitData: {...prev.submitData, checklist_attributes: {
+        ...prev.submitData.checklist_attributes, task_list: newList
+      }}
+    }))
+  }
 
+  handleDelete = (key) => {
+    const newList = this.state.submitData.checklist_attributes.task_list.slice()
+    newList.splice(key, 1)
+    this.setState(prev => ({
+      submitData: {...prev.submitData, checklist_attributes: {
+        ...prev.submitData.checklist_attributes, task_list: newList
+      }}
+    }))
+  }
+
+ mapTasks = () => {
     const allTasks = [];
     
     for (const task of this.state.submitData.checklist_attributes.task_list) {
       for (const taskName in task) {
-        allTasks.push(taskName)
+        allTasks.push(
+          <ListGroup.Item>
+            <ActionItem toggleComplete={this.toggleComplete} handleDelete={this.handleDelete} id={this.state.submitData.checklist_attributes.task_list.indexOf(task)} key={this.state.submitData.checklist_attributes.task_list.indexOf(task)} handleSave={this.saveTask} task={taskName} completed={task[taskName]} />
+          </ListGroup.Item>
+        )
       }
     }
-    return allTasks.map(task => {
-      return <li>{task}</li>
-    })
+    return (
+      <ListGroup>
+        {
+          
+          allTasks
+        }
+      </ListGroup>
+    )
+  }
+
+  saveTask = (key, task) => {
+    const newList = this.state.submitData.checklist_attributes.task_list.slice()
+    newList.splice(key, 1, {[`${task}`]: false})
+    this.setState(prev => ({
+      submitData: {...prev.submitData, checklist_attributes: {
+        ...prev.submitData.checklist_attributes, task_list: newList
+      }}
+    }))
   }
 
   mapNotes = () => {
     const allNotes = [];
     for (const note of this.state.submitData.notes_attributes) {
-      allNotes.push(note.content)
+      if (typeof note['_destroy'] === 'undefined') {
+        allNotes.push(note.content)
+      }
     }
 
-    return allNotes.map(note => {
-      return <li>{note}</li>
-    })
+    return (
+      <ListGroup>
+        {allNotes.map(note => {
+          return <Note id={allNotes.indexOf(note)} key={allNotes.indexOf(note)} handleSave={this.saveNote} handleDelete={this.deleteNote} note={note} />
+        })}
+      </ListGroup>
+    )
+  }
+
+  saveNote = (key, note) => {
+    const newList = this.state.submitData.notes_attributes.slice()
+    newList[key]['content'] = note;
+    this.setState(prev => ({
+      submitData: {...prev.submitData, notes_attributes: newList}
+    }))
+  }
+  
+  deleteNote = (key, note) => {
+    const newList = this.state.submitData.notes_attributes.slice()
+    newList[key]['_destroy'] = true
+    this.setState(prev => ({
+      submitData: {...prev.submitData, notes_attributes: newList}
+    }), () => {console.log(this.state.submitData)})
   }
 
   handleClick = event => {
@@ -95,7 +157,11 @@ class NewJobLeadForm extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then(this.props.history.push('/dashboards/job_leads'))
+    .then(json => {
+      console.log(json)
+      // this.props.history.push('/dashboards/job_leads')
+    }
+      )
   }
   
   handleChange = event => {
@@ -146,7 +212,9 @@ class NewJobLeadForm extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <>
+      <h3 className="text-center">Add New Job Lead</h3>
+      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto">
         <Form.Group controlId="formBasicCompany">
           <Form.Label>Company Name</Form.Label>
           <Form.Control name="company" onChange={this.handleChange} value={this.state.submitData.company} type="text" placeholder="Enter company name" />
@@ -157,7 +225,7 @@ class NewJobLeadForm extends React.Component {
         </Form.Group>
         <Form.Group controlId="formBasicLink">
           <Form.Label>Job Posting Link</Form.Label>
-          <Form.Control name="link" onChange={this.handleChange} value={this.state.submitData.link} type="text" placeholder="Link to job posting" />
+          <Form.Control name="link" onChange={this.handleChange} type="text" placeholder="Link to job posting" />
         </Form.Group>
         <Form.Group controlId="formBasicDate">
           <Form.Label>Date initiated</Form.Label>
@@ -203,6 +271,7 @@ class NewJobLeadForm extends React.Component {
           Submit
         </Button>
       </Form>
+      </>
 
 
     )

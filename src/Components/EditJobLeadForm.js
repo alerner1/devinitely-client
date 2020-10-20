@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import ActionItem from './ActionItem'
 import Note from './Note'
 import {withRouter} from 'react-router-dom'
+import ListGroup from 'react-bootstrap/esm/ListGroup';
 
 class EditJobLeadForm extends React.Component {
   state = {
@@ -63,28 +64,53 @@ class EditJobLeadForm extends React.Component {
       }))
   }
 
+  toggleComplete = (key, task) => {
+    const newList = this.state.submitData.checklist_attributes.task_list.slice()
+    newList.splice(key, 1, {[`${task}`]: !newList[key][`${task}`]})
+    this.setState(prev => ({
+      submitData: {...prev.submitData, checklist_attributes: {
+        ...prev.submitData.checklist_attributes, task_list: newList
+      }}
+    }))
+  }
+
   mapTasks = () => {
     const allTasks = [];
     
     for (const task of this.state.submitData.checklist_attributes.task_list) {
       for (const taskName in task) {
-        allTasks.push(taskName)
+        allTasks.push(
+          <ListGroup.Item>
+            <ActionItem toggleComplete={this.toggleComplete} handleDelete={this.handleDelete} id={this.state.submitData.checklist_attributes.task_list.indexOf(task)} key={this.state.submitData.checklist_attributes.task_list.indexOf(task)} handleSave={this.saveTask} task={taskName} completed={task[taskName]} />
+          </ListGroup.Item>
+        )
       }
     }
-    return allTasks.map(task => {
-      return <ActionItem id={allTasks.indexOf(task)} key={allTasks.indexOf(task)} handleSave={this.saveTask} task={task} />
-    })
+    return (
+      <ListGroup>
+        {
+          
+          allTasks
+        }
+      </ListGroup>
+    )
   }
 
   mapNotes = () => {
     const allNotes = [];
     for (const note of this.state.submitData.notes_attributes) {
-      allNotes.push(note.content)
+      if (typeof note['_destroy'] === 'undefined') {
+        allNotes.push(note.content)
+      }
     }
 
-    return allNotes.map(note => {
-      return <Note id={allNotes.indexOf(note)} key={allNotes.indexOf(note)} handleSave={this.saveNote} note={note} />
-    })
+    return (
+      <ListGroup>
+        {allNotes.map(note => {
+          return <Note id={allNotes.indexOf(note)} key={allNotes.indexOf(note)} handleSave={this.saveNote} handleDelete={this.deleteNote} note={note} />
+        })}
+      </ListGroup>
+    )
   }
 
   handleClick = event => {
@@ -129,11 +155,18 @@ class EditJobLeadForm extends React.Component {
       submitData: {...prev.submitData, notes_attributes: newList}
     }))
   }
+  
+  deleteNote = (key, note) => {
+    const newList = this.state.submitData.notes_attributes.slice()
+    newList[key]['_destroy'] = true
+    this.setState(prev => ({
+      submitData: {...prev.submitData, notes_attributes: newList}
+    }), () => {console.log(this.state.submitData)})
+  }
 
   handleSubmit = event => {
     event.preventDefault()
     const token = localStorage.getItem("token")
-    console.log(this.state.submitData.notes_attributes)
     fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
       method: "PATCH",
       headers: {
@@ -146,7 +179,10 @@ class EditJobLeadForm extends React.Component {
       })
     })
     .then(resp => resp.json())
-    .then(this.props.history.push(`/job_leads/${this.props.jobLeadId}`))
+    .then((json) => {
+      console.log(json)
+      this.props.history.push(`/job_leads/${this.props.jobLeadId}`)
+    })
   
     
   }
@@ -193,13 +229,25 @@ class EditJobLeadForm extends React.Component {
       this.setState(prev => ({ 
         ...prev, 
         submitData: {...prev.submitData, [event.target.name]: event.target.value}
-      }))
+      }), () => console.log(this.state.submitData))
     }
+  }
+
+  handleDelete = (key) => {
+    const newList = this.state.submitData.checklist_attributes.task_list.slice()
+    newList.splice(key, 1)
+    this.setState(prev => ({
+      submitData: {...prev.submitData, checklist_attributes: {
+        ...prev.submitData.checklist_attributes, task_list: newList
+      }}
+    }))
   }
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <>
+      <h3 className="text-center">Edit Job Lead Information</h3>
+      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto">
         <Form.Group controlId="formBasicCompany">
           <Form.Label>Company Name</Form.Label>
           <Form.Control name="company" onChange={this.handleChange} value={this.state.submitData.company} type="text" placeholder="Enter company name" />
@@ -214,7 +262,7 @@ class EditJobLeadForm extends React.Component {
         </Form.Group>
         <Form.Group controlId="formBasicDate">
           <Form.Label>Date initiated</Form.Label>
-          <Form.Control name="date" onChange={this.handleChange} value={this.state.submitData.email} type="date" placeholder="Date you started working on this app" />
+          <Form.Control name="date" onChange={this.handleChange} defaultValue={this.state.submitData.date} type="date" placeholder="Date you started working on this app" />
         </Form.Group>
         <Form.Group controlId="formBasicReferral">
           <Form.Label>Referral</Form.Label>
@@ -238,17 +286,18 @@ class EditJobLeadForm extends React.Component {
         </Form.Group>
         <Form.Group controlId="formBasicChecklist">
           <Form.Label>Action Items</Form.Label>
-          <ul>
             {this.mapTasks()}
-          </ul>
+        </Form.Group>
+        <Form.Group controlId="formBasicAddChecklist">
           <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
           <Button id="addActionItem" onClick={this.handleClick}>Add Action Item</Button>
         </Form.Group> 
         <Form.Group controlId="formBasicNotes">
           <Form.Label>Notes</Form.Label>
-          <ul>
             {this.mapNotes()}
-          </ul>
+        </Form.Group>
+        <Form.Group controlId="formBasicAddNote">
+          
           <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="textarea" placeholder="Note content" />
           <Button id="addNote" onClick={this.handleClick}>Add Note</Button>
         </Form.Group> 
@@ -256,6 +305,7 @@ class EditJobLeadForm extends React.Component {
           Submit
         </Button>
       </Form>
+      </>
 
 
     )
