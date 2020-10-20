@@ -28,7 +28,7 @@ TUESDAY:
 
 MORNING: 
 * Job Leads Dashboard
-  * finish edit nested attributes forms
+  * DONE finish edit nested attributes forms
   * adjust design so new/show/edit look normal
 
 AFTERNOON: 
@@ -58,5 +58,7 @@ WEDNESDAY:
 ////
 
 TODOS:
+* mark checklist as done
+* show action items for only up to next three
 * figure out sorting for checklist, notes, job leads
 * date value in edit form

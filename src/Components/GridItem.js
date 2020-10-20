@@ -2,8 +2,10 @@ import React from 'react';
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
-
+import Button from 'react-bootstrap/Button'
 import {withRouter} from 'react-router-dom';
+import Row from 'react-bootstrap/Row'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 class GridItem extends React.Component {
   state = {
@@ -20,7 +22,6 @@ class GridItem extends React.Component {
   }
 
   renderChecklist = () => {
-    // console.log(this.props.jobLead.checklist.task_list)
     const notCompleted = [];
     
     for (const task of this.props.jobLead.checklist.task_list) {
@@ -30,9 +31,24 @@ class GridItem extends React.Component {
         }
       }
     }
-    return notCompleted.map(task => {
-      return <li>{task}</li>
-    })
+    if (notCompleted.length === 0) {
+      return (
+      <>
+      <br />
+      No action items right now!
+      </>
+      )
+    } else {
+      return (
+      <>
+      <div className="text-center">Action Items:</div>
+      <ListGroup >
+        {notCompleted.map(task => {
+        return <ListGroup.Item className="text-sm">{task}</ListGroup.Item>
+      })}
+      </ListGroup>
+      </>)
+    }
   }
 
   
@@ -43,19 +59,31 @@ class GridItem extends React.Component {
   render() {
     return (
       <Col xs={3} style={{paddingLeft:0, paddingRight:0}}>
-        <Container fluid>
-          <Card onClick={this.handleClick} onMouseEnter={this.toggleColor} onMouseLeave={this.toggleColor} style={{cursor: 'pointer', backgroundColor: this.state.color, height: '50vh', width: '20vw'}} >
-            <Card.Body>
-              <Card.Title>
-                {/* adjust href below if not using faker links */}
-                {this.props.jobLead.title}, <a href={`http://www.${this.props.jobLead.link}`}>{this.props.jobLead.company}</a>
-              </Card.Title>
-              <Card.Text>
-                Action Items:
-                <ul>
-                  {this.renderChecklist()}
-                </ul>
-              </Card.Text>
+        <Container>
+          <Card onClick={this.handleClick} onMouseEnter={this.toggleColor} onMouseLeave={this.toggleColor} style={{cursor: 'pointer', backgroundColor: this.state.color, height: '55vh', width: '20vw'}} >
+            <Card.Body >
+              <Row className='mb-3'>
+                <Col>
+                  <Card.Title className="text-center ">
+                    {/* adjust href below if not using faker links */}
+                    <h5>{this.props.jobLead.title}</h5>
+                    <h6 className="font-italic">{this.props.jobLead.company}</h6>
+                  </Card.Title>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="text-center mb-3">
+                  <Button  size="sm" href={`http://www.${this.props.jobLead.link}`}>App Site</Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text>
+                    
+                    {this.renderChecklist()}
+                  </Card.Text>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Container>
