@@ -23,12 +23,6 @@ class ShowJobLead extends React.Component {
       .then(json => this.setState({ jobLead: json }))
   }
 
-  // componentDidUpdate(prevState) {
-  //   if (prevState.jobLead && prevState.jobLead.checklist.task_list !== this.state.jobLead.checklist.task_list) {
-  //     this.renderChecklist()
-  //   }
-  // }
-
   renderChecklist = () => {
     const allTasks = [];
 
@@ -176,9 +170,13 @@ class ShowJobLead extends React.Component {
     for (let i = 0; i < newList.length; i++) {
       if (typeof newList[i][taskName] !== 'undefined') {
         newList[i][taskName] = !newList[i][taskName]
+        if (newList[i][taskName] === true) {
+          this.props.incrementActivities()
+        } else {
+          this.props.decrementActivities()
+        }
       }
     }
-
 
     const token = localStorage.getItem("token")
     fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {

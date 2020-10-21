@@ -9,9 +9,9 @@ class JobLeadContainer extends React.Component {
 
   chooseChild = () => {
     if (this.props.action === 'show') {
-      return <ShowJobLead jobLeadId={this.props.match.params.jobLeadId} />
+      return <ShowJobLead user={this.props.user} decrementActivities={this.props.decrementActivities}  incrementActivities={this.props.incrementActivities} jobLeadId={this.props.match.params.jobLeadId} />
     } else if (this.props.action === 'edit') {
-      return <EditJobLeadForm user={this.props.user} jobLeadId={this.props.match.params.jobLeadId} />
+      return <EditJobLeadForm decrementActivities={this.props.decrementActivities} incrementActivities={this.props.incrementActivities} user={this.props.user} jobLeadId={this.props.match.params.jobLeadId} />
     }
   }
 

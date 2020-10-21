@@ -13,6 +13,7 @@ class ActivitiesDashboard extends React.Component {
     this.props.history.push('/dashboards/job_leads')
   }
 
+
   render() {
     return (
       <>
@@ -22,7 +23,7 @@ class ActivitiesDashboard extends React.Component {
               <Row>
                 <Col className="text-center">
                   <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" height="100vw" alt="coding guy" />
-                  <p>15 Job Leads Updated</p>
+                  <p>{this.props.activities} Job Lead{this.props.activities !== 1 ? 's' : ''} Updated</p>
                 </Col>
                 <Col className="text-center">
                  <img src="https://www.flaticon.com/svg/static/icons/svg/2427/2427233.svg" width="100vw" height="100vw" alt="resume icon" />

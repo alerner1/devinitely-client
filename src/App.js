@@ -70,6 +70,43 @@ class App extends React.Component {
       .then(json => this.appHandleLogin({email: userInfo.email, password: userInfo.password}))
   }
 
+  
+  incrementActivities = () => {
+    const token = localStorage.getItem("token")
+    const newActivities = this.state.user.activities + 1
+    fetch(`http://localhost:3000/users/${this.state.user.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json",
+      "Accepts": "application/json",
+      Authorization: `Bearer ${token}`},
+      body: JSON.stringify({
+        user: {
+          activities: newActivities
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(json => this.setState({user: json.user}))
+  }
+
+  decrementActivities = () => {
+    const token = localStorage.getItem("token")
+    const newActivities = this.state.user.activities - 1
+    fetch(`http://localhost:3000/users/${this.state.user.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json",
+      "Accepts": "application/json",
+      Authorization: `Bearer ${token}`},
+      body: JSON.stringify({
+        user: {
+          activities: newActivities
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(json => this.setState({user: json.user}))
+  }
+
   render() {
     return (
       // in render statement of routes, check if user and if not return null
@@ -83,11 +120,11 @@ class App extends React.Component {
             : 
             null 
           } />
-          <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} formType='new' />} />
-          <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
-          <Route exact path={`/job_leads/:jobLeadId/edit`} render={routerProps => <JobLeadContainer {...routerProps} action="edit" user={this.state.user} />} />
+          <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} incrementActivities={this.incrementActivities} decrementActivities={this.decrementActivities} formType='new' />} />
+          <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} activities={this.state.user && this.state.user.activities} />} />
+          <Route exact path={`/job_leads/:jobLeadId/edit`} render={routerProps => <JobLeadContainer {...routerProps} action="edit" decrementActivities={this.decrementActivities} incrementActivities={this.incrementActivities} user={this.state.user} />} />
           <Route exact path={`/job_leads/:jobLeadId`} render={routerProps => {
-          return <JobLeadContainer {...routerProps} action="show" />
+          return <JobLeadContainer {...routerProps} decrementActivities={this.decrementActivities}  incrementActivities={this.incrementActivities} action="show" />
           }} />
           <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>

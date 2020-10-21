@@ -4,7 +4,7 @@ import NewJobLeadForm from '../Components/NewJobLeadForm';
 class FormContainer extends React.Component {
   chooseForm = () => {
     if (this.props.formType === 'new') {
-      return <NewJobLeadForm user={this.props.user} />
+      return <NewJobLeadForm incrementActivities={this.props.incrementActivities} decrementActivities={this.props.decrementActivities} user={this.props.user} />
     }
   }
 

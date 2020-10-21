@@ -33,6 +33,13 @@ class NewJobLeadForm extends React.Component {
   toggleComplete = (key, task) => {
     const newList = this.state.submitData.checklist_attributes.task_list.slice()
     newList.splice(key, 1, {[`${task}`]: !newList[key][`${task}`]})
+
+    if (newList[key][task] === true) {
+      this.props.incrementActivities()
+    } else {
+      this.props.decrementActivities()
+    } // MAKE THIS PERSIST ONLY ON SUBMIT
+
     this.setState(prev => ({
       submitData: {...prev.submitData, checklist_attributes: {
         ...prev.submitData.checklist_attributes, task_list: newList

@@ -6,14 +6,16 @@ import Card from 'react-bootstrap/Card';
 import JobLeadsDashboard from '../Components/JobLeadsDashboard';
 
 class DashboardsContainer extends React.Component {
+
+
   renderDashboard = () => {
     if (this.props.dashboard === 'activities') {
-      return <ActivitiesDashboard />
+      return <ActivitiesDashboard  activities={this.props.activities} />
     } else if (this.props.dashboard === 'jobleads') {
       return <JobLeadsDashboard />
     }
   }
-
+  
   render() {
     return (
       <>
@@ -26,7 +28,6 @@ class DashboardsContainer extends React.Component {
             </Card>
           </Container>
           :
-          // <Redirect to="/login" />
           null
         }
       </>
