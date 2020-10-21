@@ -71,38 +71,24 @@ class App extends React.Component {
   }
 
   
-  incrementActivities = () => {
+  updateActivities = (deltaActivities, deltaResumes, deltaCoverLetters, deltaInterviews) => {
     const token = localStorage.getItem("token")
-    const newActivities = this.state.user.activities + 1
     fetch(`http://localhost:3000/users/${this.state.user.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json",
-      "Accepts": "application/json",
-      Authorization: `Bearer ${token}`},
-      body: JSON.stringify({
-        user: {
-          activities: newActivities
-        }
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          user: {
+            activities: this.state.user.activities + deltaActivities,
+            resumes: this.state.user.resumes + deltaResumes,
+            cover_letters: this.state.user.cover_letters + deltaCoverLetters,
+            interviews: this.state.user.interviews + deltaInterviews
+          }
+        })
       })
-    })
-      .then(resp => resp.json())
-      .then(json => this.setState({user: json.user}))
-  }
-
-  decrementActivities = () => {
-    const token = localStorage.getItem("token")
-    const newActivities = this.state.user.activities - 1
-    fetch(`http://localhost:3000/users/${this.state.user.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json",
-      "Accepts": "application/json",
-      Authorization: `Bearer ${token}`},
-      body: JSON.stringify({
-        user: {
-          activities: newActivities
-        }
-      })
-    })
       .then(resp => resp.json())
       .then(json => this.setState({user: json.user}))
   }
@@ -120,11 +106,11 @@ class App extends React.Component {
             : 
             null 
           } />
-          <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} incrementActivities={this.incrementActivities} decrementActivities={this.decrementActivities} formType='new' />} />
-          <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} activities={this.state.user && this.state.user.activities} />} />
-          <Route exact path={`/job_leads/:jobLeadId/edit`} render={routerProps => <JobLeadContainer {...routerProps} action="edit" decrementActivities={this.decrementActivities} incrementActivities={this.incrementActivities} user={this.state.user} />} />
+          <Route exact path="/dashboards/job_leads/create" render={routerProps => <FormContainer {...routerProps} user={this.state.user} updateActivities={this.updateActivities} formType='new' />} />
+          <Route exact path="/dashboards" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
+          <Route exact path={`/job_leads/:jobLeadId/edit`} render={routerProps => <JobLeadContainer {...routerProps} action="edit" updateActivities={this.updateActivities} user={this.state.user} />} />
           <Route exact path={`/job_leads/:jobLeadId`} render={routerProps => {
-          return <JobLeadContainer {...routerProps} decrementActivities={this.decrementActivities}  incrementActivities={this.incrementActivities} action="show" />
+          return <JobLeadContainer {...routerProps} updateActivities={this.updateActivities} action="show" />
           }} />
           <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>

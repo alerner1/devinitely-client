@@ -34,7 +34,7 @@ MORNING:
 WEDNESDAY:
 
 MORNING:
-* job search progress algorithms
+* DONE job search progress algorithms
 
 * Stretch goals:
   * Side Projects/Git Commits Dashboard

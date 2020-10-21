@@ -171,9 +171,29 @@ class ShowJobLead extends React.Component {
       if (typeof newList[i][taskName] !== 'undefined') {
         newList[i][taskName] = !newList[i][taskName]
         if (newList[i][taskName] === true) {
-          this.props.incrementActivities()
+          let deltaResumes = 0;
+          let deltaCoverLetters = 0;
+          let deltaInterviews = 0;
+          if (taskName === 'Submit Resume') {
+            deltaResumes = 1;
+          } else if (taskName === 'Submit Cover Letter') {
+            deltaCoverLetters = 1;
+          } else if (taskName === 'Interview') {
+            deltaInterviews = 1;
+          }
+          this.props.updateActivities(1, deltaResumes, deltaCoverLetters, deltaInterviews)
         } else {
-          this.props.decrementActivities()
+          let deltaResumes = 0;
+          let deltaCoverLetters = 0;
+          let deltaInterviews = 0;
+          if (taskName === 'Submit Resume') {
+            deltaResumes = -1;
+          } else if (taskName === 'Submit Cover Letter') {
+            deltaCoverLetters = -1;
+          } else if (taskName === 'Interview') {
+            deltaInterviews = -1;
+          }
+          this.props.updateActivities(-1, deltaResumes, deltaCoverLetters, deltaInterviews)
         }
       }
     }

@@ -19,23 +19,22 @@ class ActivitiesDashboard extends React.Component {
       <>
             <Card.Title className="text-center"><h1>Your Job Search Progress</h1></Card.Title>
             <div className="d-flex flex-column h-100 justify-content-center">
-              <div className="h3 text-center mb-3">This Week:</div>
               <Row>
                 <Col className="text-center">
                   <img src="https://www.flaticon.com/svg/static/icons/svg/948/948369.svg" width="100vw" height="100vw" alt="coding guy" />
-                  <p>{this.props.activities} Job Lead{this.props.activities !== 1 ? 's' : ''} Updated</p>
+                  <p>{this.props.user.activities} Job Lead{this.props.user.activities !== 1 ? 's' : ''} Updated</p>
                 </Col>
                 <Col className="text-center">
                  <img src="https://www.flaticon.com/svg/static/icons/svg/2427/2427233.svg" width="100vw" height="100vw" alt="resume icon" />
-                  <p>2 Resumes Submitted</p>
+                  <p>{this.props.user.resumes} Resume{this.props.user.resumes !== 1 ? 's' : ''} Submitted</p>
                 </Col>
                 <Col className="text-center">
                  <img src="https://www.flaticon.com/svg/static/icons/svg/1034/1034147.svg" width="100vw" height="100vw" alt="cover letter icon" />
-                  <p>3 Cover Letters Submitted</p>
+                  <p>{this.props.user.cover_letters} Cover Letter{this.props.user.cover_letters !== 1 ? 's' : ''} Submitted</p>
                 </Col>
                 <Col className="text-center">
                  <img src="https://www.flaticon.com/svg/static/icons/svg/942/942790.svg" width="100vw" height="100vw" alt="interview icon" />
-                  <p>4 Interviews Pending</p>
+                  <p>{this.props.user.interviews} Interview{this.props.user.interviews !== 1 ? 's' : ''} Pending</p>
                 </Col>
               </Row>
             </div>

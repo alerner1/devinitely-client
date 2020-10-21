@@ -30,7 +30,11 @@ class EditJobLeadForm extends React.Component {
     },
     checklistItem: '',
     noteContent: '',
-    jobLead: []
+    jobLead: [],
+    activitiesCounter: 0,
+    resumesCounter: 0,
+    coverLettersCounter: 0,
+    interviewsCounter: 0
   }
 
   componentDidMount() {
@@ -40,39 +44,57 @@ class EditJobLeadForm extends React.Component {
       headers: { Authorization: `Bearer ${token}`}
     })
       .then(resp => resp.json())
-      .then(jobLead => this.setState({
-        submitData: {
-          company: jobLead.company,
-          link: jobLead.link,
-          date: jobLead.date,
-          contact_method: jobLead.contact_method,
-          referral: jobLead.referral,
-          title: jobLead.title,
-          user_id: this.props.user && this.props.user.id,
-          checklist_attributes: {
-            id: jobLead.checklist.id,
-            task_list: jobLead.checklist.task_list
-          },
-          contact_attributes: {
-            id: jobLead.contact.id,
-            name: jobLead.contact.name,
-            title: jobLead.contact.title,
-            email: jobLead.contact.email
-          },
-          notes_attributes: jobLead.notes
+      .then(jobLead => {
+        let activitiesCounter = 0;
+        let resumesCounter = 0;
+        let coverLettersCounter = 0;
+        let interviewsCounter = 0;
+        for (let task of jobLead.checklist.task_list) {
+          for (let taskName in task) {
+            if (task[taskName] === true) {
+              activitiesCounter++;
+              if (taskName === 'Submit Resume') {
+                resumesCounter = 1;
+              } else if (taskName === 'Submit Cover Letter') {
+                coverLettersCounter = 1;
+              } else if (taskName === 'Interview') {
+                interviewsCounter = 1;
+              }
+            }
+          }
         }
-      }))
+        this.setState({
+          submitData: {
+            company: jobLead.company,
+            link: jobLead.link,
+            date: jobLead.date,
+            contact_method: jobLead.contact_method,
+            referral: jobLead.referral,
+            title: jobLead.title,
+            user_id: this.props.user && this.props.user.id,
+            checklist_attributes: {
+              id: jobLead.checklist.id,
+              task_list: jobLead.checklist.task_list
+            },
+            contact_attributes: {
+              id: jobLead.contact.id,
+              name: jobLead.contact.name,
+              title: jobLead.contact.title,
+              email: jobLead.contact.email
+            },
+            notes_attributes: jobLead.notes
+          },
+          activitiesCounter: activitiesCounter,
+          resumesCounter: resumesCounter,
+          coverLettersCounter: coverLettersCounter,
+          interviewsCounter: interviewsCounter
+        })
+      })
   }
 
   toggleComplete = (key, task) => {
     const newList = this.state.submitData.checklist_attributes.task_list.slice()
     newList.splice(key, 1, {[`${task}`]: !newList[key][`${task}`]})
-
-    if (newList[key][task] === true) {
-      this.props.incrementActivities()
-    } else {
-      this.props.decrementActivities()
-    }
 
     this.setState(prev => ({
       submitData: {...prev.submitData, checklist_attributes: {
@@ -174,6 +196,32 @@ class EditJobLeadForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
     const token = localStorage.getItem("token")
+
+    let finalActivitiesCounter = 0;
+    let finalResumesCounter = 0;
+    let finalCoverLettersCounter = 0;
+    let finalInterviewsCounter = 0;
+    for (let task of this.state.submitData.checklist_attributes.task_list) {
+      for (let taskName in task) {
+        if (task[taskName] === true) {
+          finalActivitiesCounter++;
+          if (taskName === 'Submit Resume') {
+            finalResumesCounter++;
+          } else if (taskName === 'Submit Cover Letter') {
+            finalCoverLettersCounter++;
+          } else if (taskName === 'Interview') {
+            finalInterviewsCounter++;
+          }
+        }
+      }
+    }
+    
+    const activitiesChange = finalActivitiesCounter - this.state.activitiesCounter;
+    const resumesChange = finalResumesCounter - this.state.resumesCounter;
+    const coverLettersChange = finalCoverLettersCounter - this.state.coverLettersCounter;
+    const interviewsChange = finalInterviewsCounter - this.state.interviewsCounter;
+    this.props.updateActivities(activitiesChange, resumesChange, coverLettersChange, interviewsChange)
+
     fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
       method: "PATCH",
       headers: {

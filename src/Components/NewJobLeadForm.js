@@ -34,11 +34,11 @@ class NewJobLeadForm extends React.Component {
     const newList = this.state.submitData.checklist_attributes.task_list.slice()
     newList.splice(key, 1, {[`${task}`]: !newList[key][`${task}`]})
 
-    if (newList[key][task] === true) {
-      this.props.incrementActivities()
-    } else {
-      this.props.decrementActivities()
-    } // MAKE THIS PERSIST ONLY ON SUBMIT
+    // if (newList[key][task] === true) {
+    //   this.props.incrementActivities()
+    // } else {
+    //   this.props.decrementActivities()
+    // } // MAKE THIS PERSIST ONLY ON SUBMIT
 
     this.setState(prev => ({
       submitData: {...prev.submitData, checklist_attributes: {
@@ -151,7 +151,30 @@ class NewJobLeadForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
     const token = localStorage.getItem("token")
-    console.log(this.state)
+
+    let activitiesCounter = 0;
+    let deltaResumes = 0;
+    let deltaCoverLetters = 0;
+    let deltaInterviews = 0;
+    for (let task of this.state.submitData.checklist_attributes.task_list) {
+      for (let taskName in task) {
+        if (task[taskName] === true) {
+          activitiesCounter++;
+          if (taskName === 'Submit Resume') {
+            deltaResumes = 1;
+          } else if (taskName === 'Submit Cover Letter') {
+            deltaCoverLetters = 1;
+          } else if (taskName === 'Interview') {
+            deltaInterviews = 1;
+          }
+        }
+      }
+    }
+
+    if (activitiesCounter > 0) {
+      this.props.updateActivities(activitiesCounter, deltaResumes, deltaCoverLetters, deltaInterviews)
+    } 
+
     fetch('http://localhost:3000/job_leads', {
       method: "POST",
       headers: {
