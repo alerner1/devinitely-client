@@ -10,14 +10,14 @@ import ListGroup from 'react-bootstrap/ListGroup'
 class GridItem extends React.Component {
   state = {
     
-    color: 'white'
+    color: '#FAF3F0'
   }
 
   toggleColor = () => {
-    if (this.state.color === 'white') {
-      this.setState({color: 'lightgrey'})
+    if (this.state.color === '#FAF3F0') {
+      this.setState({color: '#F0DAD1'})
     } else {
-      this.setState({color: 'white'})
+      this.setState({color: '#FAF3F0'})
     }
   }
 
@@ -25,7 +25,7 @@ class GridItem extends React.Component {
     const listOfThree = []
     for (let i = 0; i < 3; i++) {
       if (notCompleted[i]) {
-        listOfThree.push(<ListGroup.Item className="text-sm">{notCompleted[i]}</ListGroup.Item>)
+        listOfThree.push(<ListGroup.Item className="background-ivory text-sm">{notCompleted[i]}</ListGroup.Item>)
       }
     }
     return listOfThree;
@@ -83,7 +83,7 @@ class GridItem extends React.Component {
               </Row>
               <Row>
                 <Col className="text-center mb-3">
-                  <Button  size="sm" href={`http://www.${this.props.jobLead.link}`}>App Site</Button>
+                  <Button className="background-blue" size="sm" href={`http://www.${this.props.jobLead.link}`}>App Site</Button>
                 </Col>
               </Row>
               <Row>

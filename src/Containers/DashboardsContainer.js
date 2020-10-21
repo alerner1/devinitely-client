@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import ActivitiesDashboard from '../Components/ActivitiesDashboard'
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
@@ -23,7 +22,7 @@ class DashboardsContainer extends React.Component {
         {this.props.user ?
           <Container style={{ height: '90vh' }}>
             <Row className="my-auto h-75">
-            <Card style={{  margin: 'auto' }}>
+            <Card className="background-ivory w-100" style={{  margin: 'auto' }}>
               <Card.Body className="d-flex flex-column">
                 {this.renderDashboard()}
               </Card.Body>

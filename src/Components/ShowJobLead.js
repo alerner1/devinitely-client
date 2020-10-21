@@ -59,14 +59,14 @@ class ShowJobLead extends React.Component {
                       {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
                         null
                         :
-                        <Button className="float-right mr-1" onClick={event => {
+                        <Button className="background-blue float-right mr-1" onClick={event => {
                           this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
                         }}>&darr;</Button>
                       } 
                       {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
                         null
                         :
-                        <Button className="float-right mr-1" onClick={event => {
+                        <Button className="background-blue float-right mr-1" onClick={event => {
                           this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
                         }}>&uarr;</Button>
                       }
@@ -85,14 +85,14 @@ class ShowJobLead extends React.Component {
                         {this.state.jobLead.checklist.task_list.indexOf(task) === this.state.jobLead.checklist.task_list.length - 1 ?
                           null
                           :
-                          <Button className="float-right mr-1" onClick={event => {
+                          <Button className="background-blue float-right mr-1" onClick={event => {
                             this.moveDown(this.state.jobLead.checklist.task_list.indexOf(task))
                           }}>&darr;</Button>
                         } 
                       {this.state.jobLead.checklist.task_list.indexOf(task) === 0 ?
                         null
                         :
-                        <Button className="float-right mr-1" onClick={event => {
+                        <Button className="background-blue float-right mr-1" onClick={event => {
                           this.moveUp(this.state.jobLead.checklist.task_list.indexOf(task))
                         }}>&uarr;</Button>
                       }
@@ -272,19 +272,18 @@ class ShowJobLead extends React.Component {
         formattedNotes.push(this.mapNotesRow(i, allNotes))
       }
       return (
-
-        <Container className="mt-5">
-          <Card>
+        <>
+        <h5 className="mt-5 text-center">Notes</h5>
+        <Container>
+          <Card className="background-ivory">
             <Card.Body>
-              <Card.Title className="text-center">
-                Notes
-            </Card.Title>
               <Card.Text>
                 {formattedNotes}
               </Card.Text>
             </Card.Body>
           </Card>
         </Container>
+        </>
       )
 
     }
@@ -333,7 +332,7 @@ class ShowJobLead extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="background-ivory">
         <Card.Title className="text-center">
           <h3>{this.state.jobLead && this.state.jobLead.title}</h3>
           <h6>at</h6>
@@ -343,8 +342,8 @@ class ShowJobLead extends React.Component {
               Started application on {this.state.jobLead && this.state.jobLead.date && this.formatDate(this.state.jobLead.date)}
             </h6>
             <div className="d-flex flex-row justify-content-end">
-              <Button className="mr-2" href={`http://www.${this.state.jobLead && this.state.jobLead.link}`}>Visit Application Website</Button>
-              <Button id="edit-job-lead" className="float-right" onClick={this.handleClick}>Edit Information</Button>
+              <Button className="background-blue mr-2" href={`http://www.${this.state.jobLead && this.state.jobLead.link}`}>Visit Application Website</Button>
+              <Button id="edit-job-lead" className="background-blue float-right" onClick={this.handleClick}>Edit Information</Button>
             </div>
           </div>
         </Card.Title>
@@ -355,13 +354,13 @@ class ShowJobLead extends React.Component {
             </Col>
             <Col>
               <Container>
-                <Card>
+                <Card className="background-ivory">
                   <Card.Body>
                     <Card.Title className="text-center">
                       Contact Information
                     </Card.Title>
                     <Card.Text>
-                      <Table>
+                      <Table style={{backgroundColor: 'white'}}>
                         <tbody>
                           <tr>
                             <th scope="row">
@@ -418,7 +417,7 @@ class ShowJobLead extends React.Component {
           </Row>
 
         </Card.Text>
-      </>
+      </div>
     )
   }
 }

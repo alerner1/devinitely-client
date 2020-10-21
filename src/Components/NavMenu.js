@@ -10,17 +10,17 @@ import { Redirect, withRouter } from 'react-router-dom'
 class NavMenu extends React.Component {
   goHome = event => {
     event.preventDefault();
-    this.props.history.push('/dashboards');
+    this.props.user ?  this.props.history.push('/dashboards') : this.props.history.push('/login')
   }
 
   goJobLeads = event => {
     event.preventDefault();
-    this.props.history.push('/dashboards/job_leads');
+    this.props.user ? this.props.history.push('/dashboards/job_leads') : this.props.history.push('/login')
   }
 
   render() {
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar className="toolbar-blue" expand="lg">
         <Navbar.Brand onClick={this.goHome} href="http://localhost:3001/home">Devinitely!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

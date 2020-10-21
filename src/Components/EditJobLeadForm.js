@@ -5,6 +5,8 @@ import ActionItem from './ActionItem'
 import Note from './Note'
 import {withRouter} from 'react-router-dom'
 import ListGroup from 'react-bootstrap/esm/ListGroup';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class EditJobLeadForm extends React.Component {
   state = {
@@ -215,7 +217,7 @@ class EditJobLeadForm extends React.Component {
         }
       }
     }
-    
+
     const activitiesChange = finalActivitiesCounter - this.state.activitiesCounter;
     const resumesChange = finalResumesCounter - this.state.resumesCounter;
     const coverLettersChange = finalCoverLettersCounter - this.state.coverLettersCounter;
@@ -246,11 +248,12 @@ class EditJobLeadForm extends React.Component {
     event.persist();
     if (event.target.name.includes('contact-info')) {
       if (event.target.name.includes('name')) {
+        console.log('name')
         this.setState(prev => ({
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, name: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, name: event.target.value} 
           }
         }))
       } else if (event.target.name.includes('title')) {
@@ -258,7 +261,7 @@ class EditJobLeadForm extends React.Component {
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, title: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, title: event.target.value} 
           }
         }))
       } else if (event.target.name.includes('email')) {
@@ -266,7 +269,7 @@ class EditJobLeadForm extends React.Component {
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, email: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, email: event.target.value} 
           }
         }))
       }
@@ -344,19 +347,30 @@ class EditJobLeadForm extends React.Component {
             {this.mapTasks()}
         </Form.Group>
         <Form.Group controlId="formBasicAddChecklist">
-          <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
-          <Button id="addActionItem" onClick={this.handleClick}>Add Action Item</Button>
+          <Row>
+            <Col xs={8}>
+              <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="New action item" />
+            </Col>
+            <Col xs={4}>
+              <Button className="float-right background-blue"  id="addActionItem" onClick={this.handleClick}>Save Action Item</Button>
+            </Col>
+          </Row>
         </Form.Group> 
         <Form.Group controlId="formBasicNotes">
           <Form.Label>Notes</Form.Label>
             {this.mapNotes()}
         </Form.Group>
         <Form.Group controlId="formBasicAddNote">
-          
-          <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="textarea" placeholder="Note content" />
-          <Button id="addNote" onClick={this.handleClick}>Add Note</Button>
+          <Row>
+            <Col xs={9}>
+              <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="textarea" placeholder="New note" />
+            </Col>
+            <Col xs={3}>
+              <Button className="float-right background-blue" id="addNote" onClick={this.handleClick}>Save Note</Button>
+            </Col>
+          </Row>
         </Form.Group> 
-        <Button variant="primary" type="submit">
+        <Button block variant="primary" className="background-blue" type="submit">
           Submit
         </Button>
       </Form>

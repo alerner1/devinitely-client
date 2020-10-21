@@ -3,6 +3,8 @@ import Card from 'react-bootstrap/Card';
 import LeadsGrid from './LeadsGrid';
 import Button from 'react-bootstrap/Button';
 import {withRouter} from 'react-router-dom';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class JobLeadsDashboard extends React.Component {
   handleClick = event => {
@@ -13,17 +15,25 @@ class JobLeadsDashboard extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="background-ivory">
         <Card.Title>
           <div className="h1 w-100 text-center">
-            <p>Job Leads</p>
-            <Button id="add-job-lead" className="float-right" onClick={this.handleClick}>Add Job Lead</Button>
+            <Row>
+              <Col xs={2}>
+              </Col>
+              <Col>
+                <p>Job Leads</p>
+              </Col>
+              <Col xs={2}>
+                <Button id="add-job-lead" className="btn-lg background-blue float-right" onClick={this.handleClick}>Add Job Lead</Button>
+              </Col>
+            </Row>
           </div>
         </Card.Title>
         <Card.Text> 
           <LeadsGrid />
         </Card.Text>
-      </>
+      </div>
     )
   }
 

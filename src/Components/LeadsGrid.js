@@ -26,7 +26,7 @@ class LeadsGrid extends React.Component {
     const thisRow = this.state.jobLeads.filter(jobLead => {
       return this.state.jobLeads.indexOf(jobLead) >= row * 4 && this.state.jobLeads.indexOf(jobLead) < (row + 1) * 4
     })
-    return <Row style={{marginLeft: 0, marginRight: 0}} key={row}>{thisRow.map(jobLead => {
+    return <Row className="mb-2" style={{marginLeft: 0, marginRight: 0}} key={row}>{thisRow.map(jobLead => {
       return <GridItem key={jobLead.id} jobLead={jobLead} />
     })}</Row>
   } 

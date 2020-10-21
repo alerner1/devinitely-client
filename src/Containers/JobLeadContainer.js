@@ -18,7 +18,7 @@ class JobLeadContainer extends React.Component {
   render() {
     return(
       <Container>
-        <Card style={{  margin: 'auto' }}>
+        <Card className="background-ivory" style={{  margin: 'auto' }}>
           <Card.Body className="d-flex flex-column">
             {this.chooseChild()}
           </Card.Body>

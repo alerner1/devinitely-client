@@ -26,7 +26,8 @@ class Signup extends React.Component {
   render() {
     return (
       !this.props.user ? 
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto mt-5">
+        <h3 className="text-center">Welcome to Devinitely!</h3>
         <Form.Group controlId="formBasicFirstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control name="first_name" onChange={this.handleChange} value={this.state.first_name} type="text" placeholder="Enter first name" />
@@ -44,7 +45,7 @@ class Signup extends React.Component {
           <Form.Label>Password</Form.Label>
           <Form.Control name="password" onChange={this.handleChange} value={this.state.password} type="password" placeholder="Password" />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button block className="background-blue" type="submit">
           Submit
         </Button>
       </Form>

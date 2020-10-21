@@ -34,12 +34,12 @@ class ActivitiesDashboard extends React.Component {
                 </Col>
                 <Col className="text-center">
                  <img src="https://www.flaticon.com/svg/static/icons/svg/942/942790.svg" width="100vw" height="100vw" alt="interview icon" />
-                  <p>{this.props.user.interviews} Interview{this.props.user.interviews !== 1 ? 's' : ''} Pending</p>
+                  <p>{this.props.user.interviews} Interview{this.props.user.interviews !== 1 ? 's' : ''} Completed</p>
                 </Col>
               </Row>
             </div>
             <div className='text-center' onClick={this.clickHandler}>
-              <Button variant="primary">View Job Leads</Button>
+              <Button className="background-blue" variant="primary">View Job Leads</Button>
             </div>
             </>
     )

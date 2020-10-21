@@ -39,8 +39,8 @@ class Note extends React.Component {
              {this.state.noteContent}
             </Col>
             <Col xs={4}>
-            <Button variant="danger" className="float-right" onClick={this.handleDelete}>Delete</Button>
-            <Button onClick={this.handleEdit} className="float-right mr-1">Edit</Button>
+            <Button variant="danger" className="background-wine float-right" onClick={this.handleDelete}>Delete</Button>
+            <Button onClick={this.handleEdit} className="background-blue float-right mr-1">Edit</Button>
             </Col>
           </Row>
         </ListGroup.Item>
@@ -48,8 +48,14 @@ class Note extends React.Component {
     } else {
       return (
         <div>
-          <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="text"/>
-          <Button id="saveItem" onClick={this.handleSave}>Save</Button>
+          <Row>
+            <Col xs={10}>
+              <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="text"/>
+            </Col>
+            <Col xs={2}>
+              <Button className="background-blue" id="saveItem" onClick={this.handleSave}>Save</Button>
+            </Col>
+          </Row>
         </div>
       )
     }

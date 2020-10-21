@@ -41,17 +41,23 @@ class ActionItem extends React.Component {
           {this.props.completed ? <strike>{this.state.checklistItem}</strike> : this.state.checklistItem}
           </Col>
           <Col xs={8}>
-          <Button  variant="danger" className="float-right" onClick={this.handleDelete}>Delete</Button>
-          <Button className="float-right mr-1" onClick={this.handleEdit}>Edit</Button>
-          <Button className="float-right mr-1" onClick={this.toggleComplete}>{this.props.completed ? 'Mark Incomplete' : 'Mark Complete'}</Button>
+          <Button className="background-wine float-right" onClick={this.handleDelete}>Delete</Button>
+          <Button className="background-blue float-right mr-1" onClick={this.handleEdit}>Edit</Button>
+          <Button className="background-blue float-right mr-1" onClick={this.toggleComplete}>{this.props.completed ? 'Mark Incomplete' : 'Mark Complete'}</Button>
           </Col>
         </Row>
       )
     } else {
       return (
         <>
-      <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
-      <Button id="saveItem" onClick={this.handleSave}>Save</Button>
+          <Row>
+            <Col xs={10}>
+              <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
+            </Col>
+            <Col xs={2}>
+              <Button className="float-right background-blue" id="saveItem" onClick={this.handleSave}>Save</Button>
+            </Col>
+          </Row>
         </>
       )
     }

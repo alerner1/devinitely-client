@@ -28,7 +28,8 @@ class Login extends React.Component {
   render() {
     return (
       !this.props.user ? 
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto mt-5">
+        <h3 className="text-center">Welcome back to Devinitely!</h3>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control name="email" onChange={this.handleChange} value={this.state.email} type="email" placeholder="Enter email" />
@@ -38,7 +39,7 @@ class Login extends React.Component {
           <Form.Label>Password</Form.Label>
           <Form.Control name="password" onChange={this.handleChange} value={this.state.password} type="password" placeholder="Password" />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button block className="background-blue" variant="primary" type="submit">
           Submit
         </Button>
         <p>New here? <a onClick={this.clickHandler} href="/login/create">Create Account.</a></p>

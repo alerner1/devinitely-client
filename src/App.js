@@ -96,7 +96,7 @@ class App extends React.Component {
   render() {
     return (
       // in render statement of routes, check if user and if not return null
-      <>
+      <div>
         <NavMenu user={this.state.user} logoutHandler={this.logoutHandler} />
         <Switch>
           <Route path="/login" render={routerProps => <LoginContainer {...routerProps} appHandleLogin={this.appHandleLogin} appHandleSignup={this.appHandleSignup} user={this.state.user} />} />
@@ -114,7 +114,7 @@ class App extends React.Component {
           }} />
           <Route exact path="/" render={routerProps => <DashboardsContainer {...routerProps} dashboard='activities' user={this.state.user} />} />
         </Switch>
-      </>
+      </div>
     );
   }
 }

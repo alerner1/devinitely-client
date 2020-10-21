@@ -4,7 +4,9 @@ import Button from 'react-bootstrap/Button';
 import {withRouter} from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup'
 import ActionItem from './ActionItem'
-import Note from './Note'
+import Note from './Note';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class NewJobLeadForm extends React.Component {
   state = {
@@ -188,8 +190,7 @@ class NewJobLeadForm extends React.Component {
     })
     .then(resp => resp.json())
     .then(json => {
-      console.log(json)
-      // this.props.history.push('/dashboards/job_leads')
+      this.props.history.push('/dashboards/job_leads')
     }
       )
   }
@@ -202,7 +203,7 @@ class NewJobLeadForm extends React.Component {
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, name: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, name: event.target.value} 
           }
         }))
       } else if (event.target.name.includes('title')) {
@@ -210,7 +211,7 @@ class NewJobLeadForm extends React.Component {
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, title: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, title: event.target.value} 
           }
         }))
       } else if (event.target.name.includes('email')) {
@@ -218,7 +219,7 @@ class NewJobLeadForm extends React.Component {
           ...prev,
           submitData: {
             ...prev.submitData,
-            ['contact_attributes']: {...prev.contact_attributes, email: event.target.value} 
+            ['contact_attributes']: {...prev.submitData.contact_attributes, email: event.target.value} 
           }
         }))
       }
@@ -244,7 +245,7 @@ class NewJobLeadForm extends React.Component {
     return (
       <>
       <h3 className="text-center">Add New Job Lead</h3>
-      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto">
+      <Form onSubmit={this.handleSubmit} className="w-50 mx-auto mb-3">
         <Form.Group controlId="formBasicCompany">
           <Form.Label>Company Name</Form.Label>
           <Form.Control name="company" onChange={this.handleChange} value={this.state.submitData.company} type="text" placeholder="Enter company name" />
@@ -286,18 +287,33 @@ class NewJobLeadForm extends React.Component {
           <ul>
             {this.mapTasks()}
           </ul>
-          <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="Next action item" />
-          <Button id="addActionItem" onClick={this.handleClick}>Add Action Item</Button>
+        </Form.Group>
+        <Form.Group controlId="formBasicAddChecklist">
+          <Row>
+            <Col xs={8}>
+              <Form.Control name="checklistItem" onChange={this.handleChange} value={this.state.checklistItem} type="text" placeholder="New action item" />
+            </Col>
+            <Col xs={4}>
+              <Button className="float-right background-blue"  id="addActionItem" onClick={this.handleClick}>Save Action Item</Button>
+            </Col>
+          </Row>
         </Form.Group> 
         <Form.Group controlId="formBasicNotes">
           <Form.Label>Notes</Form.Label>
-          <ul>
             {this.mapNotes()}
-          </ul>
-          <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="textarea" placeholder="Note content" />
-          <Button id="addNote" onClick={this.handleClick}>Add Note</Button>
+        </Form.Group>
+        <Form.Group controlId="formBasicAddNote">
+          <Row>
+            <Col xs={9}>
+              <Form.Control name="noteContent" onChange={this.handleChange} value={this.state.noteContent} type="textarea" placeholder="New note" />
+            </Col>
+            <Col xs={3}>
+              <Button className="float-right background-blue" id="addNote" onClick={this.handleClick}>Save Note</Button>
+            </Col>
+          </Row>
         </Form.Group> 
-        <Button variant="primary" type="submit">
+
+        <Button block className="background-blue" variant="primary" type="submit">
           Submit
         </Button>
       </Form>
