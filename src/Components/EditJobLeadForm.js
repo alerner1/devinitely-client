@@ -41,7 +41,7 @@ class EditJobLeadForm extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.props.match.params.jobLeadId}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.props.match.params.jobLeadId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}`}
     })
@@ -224,7 +224,7 @@ class EditJobLeadForm extends React.Component {
     const interviewsChange = finalInterviewsCounter - this.state.interviewsCounter;
     this.props.updateActivities(activitiesChange, resumesChange, coverLettersChange, interviewsChange)
 
-    fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.props.jobLeadId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
