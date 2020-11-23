@@ -2,7 +2,7 @@
 
 **Overview**
 
-*The Perfect Game* is a streamlined job lead tracking system written in Ruby on Rails and JavaScript/React.js. This repo contains the front end code; the back end is [here](https://github.com/alerner1/devinitely-backend).
+*Devinitely!* is a streamlined job lead tracking system written in Ruby on Rails and JavaScript/React.js. This repo contains the front end code; the back end is [here](https://github.com/alerner1/devinitely-backend).
 
 **Front End**
 
