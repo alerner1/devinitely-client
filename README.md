@@ -15,3 +15,7 @@ A demo for this app can be found [here](https://www.loom.com/share/df84ff5844c84
 **Try It Live**
 
 [Try out the app](https://devinitely.herokuapp.com) for yourself to turbocharge your job search.
+
+**Credit**
+
+This app was written in collaboration with Jim Ferdous.
