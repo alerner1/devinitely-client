@@ -15,7 +15,7 @@ class ShowJobLead extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.props.jobLeadId}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.props.jobLeadId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -116,7 +116,7 @@ class ShowJobLead extends React.Component {
     newList[taskIndex] = temp
 
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.state.jobLead.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +143,7 @@ class ShowJobLead extends React.Component {
     newList[taskIndex] = temp
 
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.state.jobLead.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -199,7 +199,7 @@ class ShowJobLead extends React.Component {
     }
 
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/job_leads/${this.state.jobLead.id}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/job_leads/${this.state.jobLead.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

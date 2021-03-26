@@ -10,7 +10,7 @@ class LeadsGrid extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token")
-    fetch('http://localhost:3000/job_leads', {
+    fetch('https://devinitely-backend.herokuapp.com/job_leads', {
       method: "GET",
       headers: { Authorization: `Bearer ${token}`},
     })

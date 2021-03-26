@@ -21,7 +21,7 @@ class App extends React.Component {
     const token = localStorage.getItem("token")
     if (token) {
       console.log('got a token')
-      fetch('http://localhost:3000/profile', {
+      fetch('https://devinitely-backend.herokuapp.com/profile', {
         method: "GET",
         headers: { Authorization: `Bearer ${token}`},
       })
@@ -34,7 +34,7 @@ class App extends React.Component {
   }
 
   appHandleLogin = (userInfo) => {
-    fetch('http://localhost:3000/login', {
+    fetch('https://devinitely-backend.herokuapp.com/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   appHandleSignup = (userInfo) => {
-    fetch('http://localhost:3000/users', {
+    fetch('https://devinitely-backend.herokuapp.com/users', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ class App extends React.Component {
   
   updateActivities = (deltaActivities, deltaResumes, deltaCoverLetters, deltaInterviews) => {
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/users/${this.state.user.id}`, {
+    fetch(`https://devinitely-backend.herokuapp.com/users/${this.state.user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

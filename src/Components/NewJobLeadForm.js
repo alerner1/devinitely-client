@@ -177,7 +177,7 @@ class NewJobLeadForm extends React.Component {
       this.props.updateActivities(activitiesCounter, deltaResumes, deltaCoverLetters, deltaInterviews)
     } 
 
-    fetch('http://localhost:3000/job_leads', {
+    fetch('https://devinitely-backend.herokuapp.com/job_leads', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

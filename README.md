@@ -1,67 +1,21 @@
-TODOS
+***Devinitely!***
 
-FRIDAY:
+**Overview**
 
-* Signup and Login
-  * DONE set up navbar component to render no matter what page you're on
-  * DONE set up routes and components for login page if not authed (w/ redirect)
-  * DONE set up routes and components for sign up page to work if not authed
-  * DONE set up state to store user and token when logged in
+*Devinitely!* is a streamlined job lead tracking system written in Ruby on Rails and JavaScript/React.js. This repo contains the front end code; the back end is [here](https://github.com/alerner1/devinitely-backend).
 
-* User Homepage
-  * DONE navbar with appropriate routes/components (can be empty for now)
-  * DONE components/design for activity dashboard
-  * DONE start working on job leads dashboard components and design if time -- routes to create form, show page, edit page, etc
+**Front End**
 
-MONDAY: 
+The front end for *Devinitely!* is written mainly in JavaScript using the React.js framework. Styling is heavily customized Bootstrap.
 
-* Job Leads Dashboard
-  * DONE flesh out job leads dashboard: all leads should display in a grid
-  * DONE implement create new button to redirect to form for creating new job lead
-  * DONE components and design for new job lead form
-  * DONE components and design for job lead show page
-  * SOME DONE components and design for job lead edit page
+**Demo**
 
-AT THIS POINT WE SHOULD HAVE REACHED MVP.
+A demo for this app can be found [here](https://www.loom.com/share/df84ff5844c84c04ba53c9b3cf086b08).
 
-TUESDAY: 
+**Try It Live**
 
-MORNING: 
-* Job Leads Dashboard
-  * DONE finish edit nested attributes forms
-  * DONE adjust design so new/show/edit look normal
+[Try out the app](https://devinitely.herokuapp.com) for yourself to turbocharge your job search.
 
-WEDNESDAY:
+**Credit**
 
-MORNING:
-* DONE job search progress algorithms
-
-* Stretch goals:
-  * Side Projects/Git Commits Dashboard
-    * backend: update domain model and controllers/json
-    * routes and components
-    * design, implement
-  * Blog Posts
-    * backend: update domain model and controllers/json
-    * routes and components 
-    * design, implement
-  * Calendar
-    * integrate with Google Calendar API?
-    * can add 1on1s with coach, interviews, other deadlines
-  * Upload and store customized cover letter/resume
-    * learn about active storage: https://edgeguides.rubyonrails.org/active_storage_overview.html
-    * update backend accordingly
-    * design and implement components so it automatically updates the checklist when you upload the corresponding file and you can redownload said files later
-
-
-* Customize colors/theme
-* Plan presentation
-
-////
-
-TODOS:
-
-* phone contact info for job lead
-* maybe edit and new form buttons could be like "up, down, mark complete; edit, delete"
-* DONE figure out sorting for checklist, notes, job leads
-* DONE move checklist items
+This app was written in collaboration with Jim Ferdous.
