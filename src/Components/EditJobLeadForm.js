@@ -187,9 +187,17 @@ class EditJobLeadForm extends React.Component {
     }))
   }
   
-  deleteNote = (key, note) => {
+  deleteNote = (key, noteContent) => {
     const newList = this.state.submitData.notes_attributes.slice()
-    newList[key]['_destroy'] = true
+    let actualKey = null;
+    for (let note of newList) {
+      if (note.content === noteContent) {
+        actualKey = newList.indexOf(note)
+      }
+    }
+
+    newList[actualKey]['_destroy'] = true
+    console.log(newList)
     this.setState(prev => ({
       submitData: {...prev.submitData, notes_attributes: newList}
     }), () => {console.log(this.state.submitData)})
@@ -292,6 +300,7 @@ class EditJobLeadForm extends React.Component {
   }
 
   handleDelete = (key) => {
+    console.log(key)
     const newList = this.state.submitData.checklist_attributes.task_list.slice()
     newList.splice(key, 1)
     this.setState(prev => ({
